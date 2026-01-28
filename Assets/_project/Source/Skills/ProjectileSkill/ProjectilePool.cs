@@ -11,10 +11,16 @@ public class ProjectilePool : MonoBehaviour
         var gameManager = FindFirstObjectByType<GameManager>();
         if (gameManager && gameManager.prefabsConfig && gameManager.prefabsConfig.ProjectilePrefab)
             _projectile = gameManager.prefabsConfig.ProjectilePrefab.GetComponent<Projectile>();
+
+        if (!_projectile)
+            Debug.LogError($"{nameof(ProjectilePool)}: projectile prefab is not set (PrefabsConfig.ProjectilePrefab).", this);
     }
 
     public Projectile Get()
     {
+        if (!_projectile)
+            return null;
+
         if (_pool.Count > 0)
             return _pool.Dequeue();
 

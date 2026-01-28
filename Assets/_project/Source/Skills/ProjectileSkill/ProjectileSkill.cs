@@ -54,6 +54,8 @@ public class ProjectileSkill : MonoBehaviour, ISkill
             return;
 
         var proj = _pool.Get();
+        if (!proj)
+            return;
 
         proj.transform.position = transform.position + Vector3.up;
         proj.gameObject.SetActive(true);

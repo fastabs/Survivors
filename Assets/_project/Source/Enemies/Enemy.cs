@@ -158,16 +158,19 @@ public class Enemy : MonoBehaviour
     {
         var pickupPrefab = _gameManager.prefabsConfig ? _gameManager.prefabsConfig.XpPickupPrefab : null;
         GameObject go;
+        var spawnPos = transform.position;
+        if (_player)
+            spawnPos.y = _player.position.y + 0.2f;
 
         if (pickupPrefab)
         {
-            go = Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+            go = Instantiate(pickupPrefab, spawnPos, Quaternion.identity);
         }
         else
         {
             go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             go.name = "XP";
-            go.transform.position = transform.position;
+            go.transform.position = spawnPos;
             go.transform.localScale = Vector3.one * 0.35f;
 
             var col = go.GetComponent<Collider>();

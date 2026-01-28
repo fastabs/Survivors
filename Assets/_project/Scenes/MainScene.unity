@@ -302,7 +302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44e05eee4374444abb9e1d7e59088e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectilePool
-  prefab: {fileID: 6299084651163610, guid: 0ae80130f8d4c314492fcbf2fe76d67f, type: 3}
 --- !u!4 &141938988
 Transform:
   m_ObjectHideFlags: 0
@@ -428,9 +427,9 @@ RectTransform:
   - {fileID: 1358627130}
   m_Father: {fileID: 1523333093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -846, y: -534}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 110, y: 42}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297915368
@@ -1379,7 +1378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   levelText: {fileID: 1329240693}
   xpText: {fileID: 782875946}
-  game: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &1075628821
 GameObject:
   m_ObjectHideFlags: 0

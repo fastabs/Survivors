@@ -35,7 +35,7 @@
   "pickups": {
     "xpAttractRadius": 4,
     "xpAttractSpeed": 12,
-    "xpCollectDistance": 0.6,
+    "xpCollectDistance": 1.0,
     "xpLifetime": 30
   }
 }
