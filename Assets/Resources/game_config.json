@@ -1,0 +1,41 @@
+{
+  "player": {
+    "moveSpeed": 5,
+    "maxHealth": 100
+  },
+  "enemies": {
+    "common": {
+      "attackDistance": 1.2,
+      "attackInterval": 1.0,
+      "damage": 5,
+      "separationRadius": 0.8,
+      "separationForce": 1.5,
+      "separationTickInterval": 0.1
+    },
+    "normal": { "speed": 2, "health": 30, "xpDrop": 5 },
+    "fast": { "speed": 4, "health": 15, "xpDrop": 3 }
+  },
+  "skills": {
+    "projectile": { "damage": 5, "fireRate": 1, "projectileSpeed": 10, "hitDistance": 0.2 },
+    "aura": { "damage": 1, "radius": 2.5, "interval": 1 },
+    "orbit": { "damage": 2, "count": 2, "radius": 2, "rotationSpeed": 120 }
+  },
+  "levelUp": {
+    "baseXpThreshold": 10,
+    "thresholdMultiplier": 1.15
+  },
+  "spawner": {
+    "interval": 2,
+    "minDistance": 8,
+    "maxDistance": 12,
+    "spawnHeight": 2,
+    "maxAlive": 60,
+    "fastChance": 0.5
+  },
+  "pickups": {
+    "xpAttractRadius": 4,
+    "xpAttractSpeed": 12,
+    "xpCollectDistance": 0.6,
+    "xpLifetime": 30
+  }
+}

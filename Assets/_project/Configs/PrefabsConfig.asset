@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc45bb244ac411897592139fa2b2aa1, type: 3}
+  m_Name: PrefabsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::SkillPrefabsConfig
+  ProjectilePrefab: {fileID: 8492557192056763232, guid: 0ae80130f8d4c314492fcbf2fe76d67f, type: 3}
+  AuraPrefab: {fileID: 1532224313376312582, guid: 83b620824b44d1c4b952e767eda0dcad, type: 3}
+  OrbitOrbPrefab: {fileID: 8816564562620804584, guid: fe2d8cc22db787a4ea640387c73c93d4, type: 3}
+  XpPickupPrefab: {fileID: 1241839655126910508, guid: c7c95ed1bcfc5154785dad4a5f17ade4, type: 3}
