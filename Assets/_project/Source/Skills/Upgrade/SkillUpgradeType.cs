@@ -2,5 +2,6 @@
 {
     Damage,
     FireRate,
-    Radius
+    Radius,
+    Count
 }

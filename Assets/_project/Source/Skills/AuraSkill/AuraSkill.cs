@@ -10,6 +10,7 @@ public class AuraSkill : MonoBehaviour, ISkill
 
     private GameObject _visual;
     private GameManager _gameManager;
+    private readonly Collider[] _hits = new Collider[32];
 
     private void Start()
     {
@@ -42,13 +43,19 @@ public class AuraSkill : MonoBehaviour, ISkill
 
     private void DamageEnemies()
     {
-        var hits = Physics.OverlapSphere(transform.position, _radius);
-        foreach (var hit in hits)
+        var count = Physics.OverlapSphereNonAlloc(
+            transform.position,
+            _radius,
+            _hits
+        );
+
+        for (var i = 0; i < count; i++)
         {
-            if (hit.TryGetComponent(out Enemy enemy))
+            if (_hits[i].TryGetComponent(out Enemy enemy))
                 enemy.TakeDamage(_damage);
         }
     }
+
 
     private void CreateVisual()
     {
@@ -92,6 +99,7 @@ public class AuraSkill : MonoBehaviour, ISkill
                 UpdateVisualScale();
                 break;
             case SkillUpgradeType.FireRate:
+            case SkillUpgradeType.Count:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);

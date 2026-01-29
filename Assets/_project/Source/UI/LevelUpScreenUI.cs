@@ -100,8 +100,9 @@ public class LevelUpScreenUI : MonoBehaviour
             case SkillType.Projectile:
                 return new[] { SkillUpgradeType.Damage, SkillUpgradeType.FireRate };
             case SkillType.Aura:
-            case SkillType.Orbit:
                 return new[] { SkillUpgradeType.Damage, SkillUpgradeType.Radius };
+            case SkillType.Orbit:
+                return new[] { SkillUpgradeType.Damage, SkillUpgradeType.Radius, SkillUpgradeType.Count };
             default:
                 return new[] { SkillUpgradeType.Damage };
         }

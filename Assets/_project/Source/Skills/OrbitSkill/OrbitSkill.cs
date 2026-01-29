@@ -4,19 +4,28 @@ using System.Collections.Generic;
 
 public class OrbitSkill : MonoBehaviour, ISkill
 {
-    private readonly List<Transform> _orbs = new();
     private int _count;
     private float _radius;
-    private float _speed;
+    private float _rotationSpeed;
     private int _damage;
     private GameManager _gameManager;
+    private Transform _orbitRoot;
+    private readonly List<Transform> _orbs = new();
+
+    private void Awake()
+    {
+        _orbitRoot = new GameObject("OrbitRoot").transform;
+        _orbitRoot.SetParent(transform);
+        _orbitRoot.localPosition = Vector3.zero;
+        _orbitRoot.localRotation = Quaternion.identity;
+    }
 
     private void Start()
     {
         _gameManager = FindFirstObjectByType<GameManager>();
         if (!_gameManager)
         {
-            Debug.LogError($"{nameof(OrbitSkill)}: {nameof(GameManager)} not found.", this);
+            Debug.LogError($"{nameof(OrbitSkill)}:{nameof(GameManager)} not found.", this);
             enabled = false;
             return;
         }
@@ -25,49 +34,48 @@ public class OrbitSkill : MonoBehaviour, ISkill
         _damage = cfg.damage;
         _count = Mathf.Max(1, cfg.count);
         _radius = Mathf.Max(0.1f, cfg.radius);
-        _speed = cfg.rotationSpeed;
+        _rotationSpeed = cfg.rotationSpeed;
 
         CreateOrbs();
     }
 
     public void Tick()
     {
-        transform.Rotate(Vector3.up, _speed * Time.deltaTime);
+        _orbitRoot.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime, Space.Self);
+        UpdateOrbPositions();
+    }
 
-        for (int i = 0; i < _orbs.Count; i++)
+    private void CreateOrbs()
+    {
+        ClearOrbs();
+
+        var orbPrefab = _gameManager.prefabsConfig.OrbitOrbPrefab;
+        for (var i = 0; i < _count; i++)
         {
-            var angle = (360f / _orbs.Count) * i;
+            var orb = Instantiate(orbPrefab, _orbitRoot);
+            orb.GetComponent<OrbitOrb>().Init(_damage);
+            _orbs.Add(orb.transform);
+        }
+
+        UpdateOrbPositions();
+    }
+
+    private void UpdateOrbPositions()
+    {
+        for (var i = 0; i < _orbs.Count; i++)
+        {
+            var angle = i * (360f / _orbs.Count);
             var pos = Quaternion.Euler(0, angle, 0) * Vector3.forward * _radius;
             _orbs[i].localPosition = pos;
         }
     }
 
-    private void CreateOrbs()
+    private void ClearOrbs()
     {
-        var orbPrefab = _gameManager.prefabsConfig.OrbitOrbPrefab;
-        for (var i = 0; i < _count; i++)
-        {
-            GameObject orb;
-            if (orbPrefab)
-            {
-                orb = Instantiate(orbPrefab, transform);
-            }
-            else
-            {
-                orb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                orb.transform.SetParent(transform);
-                orb.transform.localScale = Vector3.one * 0.4f;
-                orb.name = "Orb";
-                var col = orb.GetComponent<Collider>();
-                if (col) col.isTrigger = true;
-            }
+        foreach (var orb in _orbs)
+            Destroy(orb.gameObject);
 
-            if (!orb.TryGetComponent(out OrbitOrb orbDamage))
-                orbDamage = orb.AddComponent<OrbitOrb>();
-
-            orbDamage.Init(_damage);
-            _orbs.Add(orb.transform);
-        }
+        _orbs.Clear();
     }
 
     public void ApplyUpgrade(SkillUpgradeType type)
@@ -79,6 +87,10 @@ public class OrbitSkill : MonoBehaviour, ISkill
                 break;
             case SkillUpgradeType.Radius:
                 _radius += 0.5f;
+                break;
+            case SkillUpgradeType.Count:
+                _count++;
+                CreateOrbs();
                 break;
             case SkillUpgradeType.FireRate:
                 break;

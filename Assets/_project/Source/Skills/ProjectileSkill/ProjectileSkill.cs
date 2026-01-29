@@ -82,6 +82,7 @@ public class ProjectileSkill : MonoBehaviour, ISkill
                 _damage += 2;
                 break;
             case SkillUpgradeType.Radius:
+            case SkillUpgradeType.Count:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);

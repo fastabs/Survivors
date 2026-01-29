@@ -43,7 +43,6 @@ public class ExperiencePickup : MonoBehaviour
             return;
         }
 
-        // Planar (XZ) distance so pickups don't "lag" due to Y offset.
         var toPlayer = _player.position - transform.position;
         toPlayer.y = 0;
         var dist = toPlayer.magnitude;
@@ -70,7 +69,7 @@ public class ExperiencePickup : MonoBehaviour
 
     private void CacheConfig()
     {
-        if (!_gameManager || _gameManager.Config == null || _gameManager.Config.pickups == null)
+        if (!_gameManager || _gameManager.Config?.pickups == null)
         {
             _attractRadius = 4f;
             _attractSpeed = 12f;
