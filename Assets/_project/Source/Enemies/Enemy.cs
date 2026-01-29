@@ -36,6 +36,12 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        Init();
+        _player = _gameManager.Player.transform;
+    }
+
+    private void Init()
+    {
         if (!_gameManager)
         {
             Debug.LogError($"{nameof(Enemy)}: {nameof(GameManager)} not found.", this);
@@ -58,8 +64,6 @@ public class Enemy : MonoBehaviour
         _separationRadius = common.separationRadius;
         _separationForce = common.separationForce;
         _separationTickInterval = Mathf.Max(0.01f, common.separationTickInterval);
-
-        _player = _gameManager.Player.transform;
     }
 
     private void OnDisable()
@@ -134,7 +138,6 @@ public class Enemy : MonoBehaviour
         var force = Vector3.zero;
         var r2 = _separationRadius * _separationRadius;
         var selfPos = transform.position;
-
         var enemies = _registry.Enemies;
 
         foreach (var enemy in enemies)
@@ -152,6 +155,16 @@ public class Enemy : MonoBehaviour
 
         _cachedSeparation = force.normalized * _separationForce;
         return _cachedSeparation;
+    }
+
+    public void ResetState()
+    {
+        Init();
+        var level = _gameManager.CurrentLevel;
+
+        _health = Mathf.RoundToInt(_health * (1 + level * 0.15f));
+        _damage = Mathf.RoundToInt(_damage * (1 + level * 0.1f));
+        _attackTimer = 0;
     }
 
     private void Die()
@@ -187,6 +200,7 @@ public class Enemy : MonoBehaviour
             xp.Init(_xpDrop, _gameManager);
         }
 
-        Destroy(gameObject);
+        _registry.Unregister(this);
+        _gameManager.EnemyPool.Release(this);
     }
 }

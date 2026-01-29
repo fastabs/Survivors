@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-
-    private float _timer;
     private GameManager _gameManager;
+    private float _timer;
 
     private void Awake()
     {
@@ -14,19 +12,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!_gameManager || !_gameManager.Player || _gameManager.Config == null)
+        if (!_gameManager || !_gameManager.Player)
             return;
 
         var cfg = _gameManager.Config.spawner;
-        if (cfg == null)
-            return;
+        var targetAlive = cfg.baseCount + _gameManager.CurrentLevel * cfg.perLevel;
 
-        if (cfg.maxAlive > 0 && _gameManager.Enemies != null && _gameManager.Enemies.Enemies.Count >= cfg.maxAlive)
+        if (_gameManager.Enemies.Enemies.Count >= targetAlive)
             return;
 
         _timer += Time.deltaTime;
-
-        if (_timer >= Mathf.Max(0.01f, cfg.interval))
+        if (_timer >= cfg.interval)
         {
             _timer = 0;
             Spawn();
@@ -35,20 +31,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawn()
     {
-        var cfg = _gameManager.Config.spawner;
-
         var playerPos = _gameManager.Player.transform.position;
-        var dir2 = Random.insideUnitCircle.normalized;
-        if (dir2.sqrMagnitude < 0.001f)
-            dir2 = Vector2.right;
+        var dir = Random.insideUnitCircle.normalized;
+        var dist = Random.Range(6f, 10f);
+        var pos = playerPos + new Vector3(dir.x, 0, dir.y) * dist;
 
-        var dist = Random.Range(cfg.minDistance, cfg.maxDistance);
-        dist = Mathf.Max(0.1f, dist);
-
-        var pos = playerPos + new Vector3(dir2.x, 0, dir2.y) * dist;
-        pos.y = cfg.spawnHeight;
-
-        var enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-        enemy.GetComponent<Enemy>().type = Random.value < cfg.fastChance ? EnemyType.Fast : EnemyType.Normal;
+        _gameManager.EnemyPool.Get(pos, Random.value < 0.25f ? EnemyType.Fast : EnemyType.Normal);
     }
 }

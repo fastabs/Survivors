@@ -1,13 +1,7 @@
 [System.Serializable]
 public class SpawnerConfig
 {
-    public float interval;
-
-    public float minDistance;
-    public float maxDistance;
-    public float spawnHeight;
-
-    public int maxAlive;
-    public float fastChance;
+    public int baseCount = 5;
+    public int perLevel = 3;
+    public float interval = 0.5f;
 }
-

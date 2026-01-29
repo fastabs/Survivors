@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("Scene references")]
     [SerializeField] private ProjectilePool projectilePool;
     [SerializeField] private LevelUpScreenUI levelUpUI;
+    [SerializeField] private EnemyPool enemyPool;
     [SerializeField] private EnemyRegistry enemyRegistry;
 
     public GameConfig Config { get; private set; }
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int CurrentXp { get; private set; }
 
     public EnemyRegistry Enemies => enemyRegistry;
+    public EnemyPool EnemyPool => enemyPool;
     public ProjectilePool Projectiles => projectilePool;
     public LevelUpScreenUI LevelUpUI => levelUpUI;
 
